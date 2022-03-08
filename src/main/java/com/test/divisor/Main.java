@@ -1,4 +1,4 @@
-package com.test.automation;
+package com.test.divisor;
 
 public class Main {
     public static int div(int a, int b) {

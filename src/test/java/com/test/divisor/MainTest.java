@@ -1,4 +1,4 @@
-package com.test.automation;
+package com.test.divisor;
 
 import org.testng.annotations.Test;
 
