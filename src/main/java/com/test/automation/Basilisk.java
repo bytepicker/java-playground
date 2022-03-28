@@ -9,20 +9,20 @@ public class Basilisk extends AbstractCreature {
         this.health = 35;
         this.speed = 5;
         this.defence = 11;
-        this.attackRange = 2;
+        this.attackRange = 1;
         this.damage = new AbstractMap.SimpleEntry<>(6, 10);
     }
 
     @Override
-    public void Attack() {
+    public void attack() {
         int damageValue = ThreadLocalRandom.current().nextInt(this.damage.getKey(), this.damage.getValue() + 1);
         System.out.println(this.getClass().getSimpleName() + " bites " + this.getCurrentEnemy().getClass().getSimpleName());
-        this.getCurrentEnemy().Defend(damageValue);
+        this.getCurrentEnemy().defend(damageValue);
     }
 
     @Override
-    public void UseMagic() {
-        System.out.println(this.getClass().getSimpleName() + " casts magic spell and increases defence by 3 points");
-        this.defence += 3;
+    public void useMagic() {
+        System.out.println(this.getClass().getSimpleName() + " casts magic spell and increases speed by 5 points");
+        this.speed += 5;
     }
 }

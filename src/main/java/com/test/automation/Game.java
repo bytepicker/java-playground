@@ -3,15 +3,15 @@ package com.test.automation;
 import java.util.*;
 
 public class Game {
+    private Lizardman lizardman;
     private Basilisk basilisk;
-    private GreaterBasilisk greaterBasilisk;
 
     public boolean battleIsNotOver() {
-        return basilisk.isAlive() && greaterBasilisk.isAlive();
+        return basilisk.isAlive() && lizardman.isAlive();
     }
 
-    public boolean enemiesAreCloseEnough() {
-        return basilisk.canReachEnemy() || greaterBasilisk.canReachEnemy();
+    public boolean atLeastOneCanAttack() {
+        return basilisk.canReachEnemy() || lizardman.canReachEnemy();
     }
 
     public boolean flipCoin() {
@@ -21,37 +21,45 @@ public class Game {
     public void action() {
         System.out.println("===== Game starts =====");
         basilisk = new Basilisk(0);
-        greaterBasilisk = new GreaterBasilisk(25);
+        lizardman = new Lizardman(25);
 
-        basilisk.setCurrentEnemy(greaterBasilisk);
-        greaterBasilisk.setCurrentEnemy(basilisk);
+        basilisk.setCurrentEnemy(lizardman);
+        lizardman.setCurrentEnemy(basilisk);
 
-        while (!enemiesAreCloseEnough()) {
+        while (!atLeastOneCanAttack()) {
             if (flipCoin()) {
-                basilisk.FindEnemy();
+                basilisk.approachEnemy();
             } else {
-                greaterBasilisk.FindEnemy();
+                lizardman.approachEnemy();
             }
         }
 
         System.out.println("===== Battle begins! =====");
         while (battleIsNotOver()) {
             if (flipCoin()) {
-                if (flipCoin()) {
-                    basilisk.Attack();
+                if (!basilisk.canReachEnemy()) {
+                    basilisk.approachEnemy();
                 } else {
-                    basilisk.UseMagic();
+                    if (flipCoin()) {
+                        basilisk.attack();
+                    } else {
+                        basilisk.useMagic();
+                    }
                 }
             } else {
-                if (flipCoin()) {
-                    greaterBasilisk.Attack();
+                if (!lizardman.canReachEnemy()) {
+                    lizardman.approachEnemy();
                 } else {
-                    greaterBasilisk.UseMagic();
+                    if (flipCoin()) {
+                        lizardman.attack();
+                    } else {
+                        lizardman.useMagic();
+                    }
                 }
             }
         }
 
-        System.out.println(basilisk.isAlive() ? "Basilisk wins!" : "Great Basilisk wins!");
+        System.out.println(basilisk.isAlive() ? "Basilisk wins!" : "Lizardman wins!");
         System.out.println("===== Battle ended =====");
     }
 }

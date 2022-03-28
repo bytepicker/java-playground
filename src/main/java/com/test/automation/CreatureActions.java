@@ -1,15 +1,15 @@
 package com.test.automation;
 
 public interface CreatureActions {
-    void Attack();
+    void attack();
 
-    void Defend(int attackPoints);
+    void defend(int attackPoints);
 
-    void FindEnemy();
+    void approachEnemy();
 
-    void Move(int xCoordinate);
+    void move(int xCoordinate);
 
-    void UseMagic();
+    void useMagic();
 
-    void Die();
+    void die();
 }

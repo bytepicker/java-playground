@@ -12,11 +12,11 @@ public abstract class AbstractCreature implements CreatureActions {
     protected int speed; // actually a single turn walk distance
     protected int defence;
     protected int attackRange;
-    AbstractMap.SimpleEntry<Integer, Integer> damage;
+    protected AbstractMap.SimpleEntry<Integer, Integer> damage;
 
     // service fields
     protected int xCoordinate;
-    boolean alive;
+    private boolean alive;
     private AbstractCreature currentEnemy;
 
     public void setCurrentEnemy(AbstractCreature currentEnemy) {
@@ -35,16 +35,16 @@ public abstract class AbstractCreature implements CreatureActions {
     public boolean canReachEnemy() {
         boolean enemyLocationIsReachable = false;
         if (this.xCoordinate < currentEnemy.xCoordinate) {
-            enemyLocationIsReachable = (this.xCoordinate + this.speed >= currentEnemy.xCoordinate);
+            enemyLocationIsReachable = (this.xCoordinate + this.attackRange >= currentEnemy.xCoordinate);
         }
         if (this.xCoordinate > currentEnemy.xCoordinate) {
-            enemyLocationIsReachable = (this.xCoordinate - this.speed <= currentEnemy.xCoordinate);
+            enemyLocationIsReachable = (this.xCoordinate - this.attackRange <= currentEnemy.xCoordinate);
         }
         return enemyLocationIsReachable;
     }
 
     @Override
-    public void Defend(int attackPoints) {
+    public void defend(int attackPoints) {
         if (attackPoints >= this.defence) {
             this.defence = 0;
             this.health -= (attackPoints - this.defence);
@@ -55,23 +55,23 @@ public abstract class AbstractCreature implements CreatureActions {
         System.out.println(" --- ");
 
         if (this.health <= 0) {
-            this.Die();
+            this.die();
         }
     }
 
     @Override
-    public void FindEnemy() {
-        this.Move(currentEnemy.xCoordinate);
+    public void approachEnemy() {
+        this.move(currentEnemy.xCoordinate);
     }
 
     @Override
-    public void Move(int xCoordinate) {
+    public void move(int xCoordinate) {
         this.xCoordinate += this.xCoordinate < currentEnemy.xCoordinate ? this.speed : -this.speed;
         System.out.println(this.getClass().getSimpleName() + " moves towards " + getCurrentEnemy().getClass().getSimpleName());
     }
 
     @Override
-    public void Die() {
+    public void die() {
         this.alive = false;
         System.out.println(this.getClass().getSimpleName() + " dies");
     }
@@ -82,8 +82,9 @@ public abstract class AbstractCreature implements CreatureActions {
                 "health=" + health +
                 ", speed=" + speed +
                 ", defence=" + defence +
+                ", attackRange=" + attackRange +
+                ", damage=" + damage +
                 ", xCoordinate=" + xCoordinate +
-                ", alive=" + alive +
                 '}';
     }
 }
