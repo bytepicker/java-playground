@@ -5,10 +5,13 @@ import java.util.Stack;
 
 //https://en.wikipedia.org/wiki/Reverse_Polish_notation
 
-public class RPN {
-    static Double count(String expr) throws ArithmeticException, EmptyStackException {
-        for(String token : expr.split("\\s+")){
-            switch (token){
+public class RPNProcessor {
+    static Double count(String expression) throws NumberFormatException, EmptyStackException {
+        if (expression == null || expression.trim().length() == 0)
+            throw new IllegalArgumentException("Empty expression or null");
+
+        for (String token : expression.split("\\s+")) {
+            switch (token) {
                 case "+":
                     stack.push(stack.pop() + stack.pop());
                     break;
@@ -33,5 +36,6 @@ public class RPN {
         }
         return stack.pop();
     }
+
     static Stack<Double> stack = new Stack<>();
 }
