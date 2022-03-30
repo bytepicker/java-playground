@@ -26,8 +26,9 @@ public class ShuntingYard {
             throw new IllegalArgumentException("Expression ends with operator");
         }
 
-        //remove all blank spaces and turn negative numbers to 0- expression
+        //sanitize input
         expression = expression.replaceAll("\\s+", "");
+        expression = expression.replaceAll(",", ".");
         expression = expression.replace("(-", "(0-");
 
         List<String> tokens = new ArrayList<>();
